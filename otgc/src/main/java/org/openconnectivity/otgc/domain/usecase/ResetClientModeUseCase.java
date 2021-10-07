@@ -21,7 +21,9 @@ public class ResetClientModeUseCase {
     }
 
     public Completable execute() {
-        return provisioningRepository.resetSvrDb()
-                .andThen(Completable.fromAction(() -> preferencesRepository.setMode(OtgcMode.CLIENT)));
+        //return provisioningRepository.resetSvrDb()
+        //        .andThen(Completable.fromAction(() -> preferencesRepository.setMode(OtgcMode.CLIENT)));
+        return Completable.fromAction(() -> preferencesRepository.setMode(OtgcMode.CLIENT))
+                .andThen (provisioningRepository.resetSvrDb());
     }
 }

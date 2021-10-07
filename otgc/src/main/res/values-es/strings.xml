@@ -144,6 +144,9 @@
     <string name="devices_dialog_set_device_name_title">Inserte nombre del dispositivo</string>
     <string name="devices_dialog_set_device_name_yes_option">Confirmar</string>
     <string name="devices_dialog_set_device_name_no_option">Cancelar</string>
+    <string name="devices_dialog_set_access_token_title">Inserte token de acceso</string>
+    <string name="devices_dialog_set_access_token_yes_option">Confirmar</string>
+    <string name="devices_dialog_set_access_token_no_option">Cancelar</string>
     <string name="trust_anchor_cert_type_radio_title">Tipo de certificado:</string>
     <string name="trust_anchor_cert_type_radio_root">Certificado raíz</string>
     <string name="trust_anchor_cert_type_radio_intermediate">Certificado intermedio</string>

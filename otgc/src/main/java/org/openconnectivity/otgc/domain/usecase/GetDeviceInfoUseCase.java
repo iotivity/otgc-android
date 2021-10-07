@@ -52,7 +52,7 @@ public class GetDeviceInfoUseCase {
     }
 
     public Single<OcDeviceInfo> execute(Device device) {
-        return iotivityRepository.getNonSecureEndpoint(device)
+        return iotivityRepository.getEndpoint(device)
                 .flatMap(iotivityRepository::getDeviceInfo)
                 .delay(preferencesRepository.getRequestsDelay(), TimeUnit.SECONDS, schedulersFacade.ui());
     }

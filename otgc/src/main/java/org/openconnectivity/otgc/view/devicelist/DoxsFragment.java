@@ -262,6 +262,12 @@ public class DoxsFragment extends Fragment implements DoxsViewModel.SelectOxMLis
                     positionWifiEasySetupItem = position;
                     mViewModel.scanWifiNetworks();
                     break;
+                case R.id.menu_item_register_device_cloud:
+                    showSetAccessTokenDialog(
+                            position, mAdapter.mDataset.get(position)
+
+                    );
+                    break;
                 case R.id.button_offboard:
                     positionBeingUpdated = position;
                     mViewModel.offboard(mAdapter.mDataset.get(position));
@@ -691,6 +697,25 @@ public class DoxsFragment extends Fragment implements DoxsViewModel.SelectOxMLis
                 })
                 .setNegativeButton(
                         getString(R.string.devices_dialog_set_device_name_no_option),
+                        null)
+                .create();
+        dialog.setView(input, (int)(16*dpi), (int)(16*dpi), (int)(16*dpi), (int)(16*dpi));
+        dialog.show();
+    }
+
+    private void showSetAccessTokenDialog(int position, Device deviceToRegister) {
+        float dpi = getContext().getResources().getDisplayMetrics().density;
+        final TextInputEditText input = new TextInputEditText(getActivity());
+        input.setText("");
+        input.setSelectAllOnFocus(true);
+        input.requestFocus();
+        AlertDialog dialog = (new AlertDialog.Builder(getActivity()))
+                .setTitle(getString(R.string.devices_dialog_set_access_token_title))
+                .setPositiveButton(getString(R.string.devices_dialog_set_access_token_yes_option), (dialogInterface, which) -> {
+                    mViewModel.registerDeviceCloud(deviceToRegister, input.getText().toString());
+                })
+                .setNegativeButton(
+                        getString(R.string.devices_dialog_set_access_token_no_option),
                         null)
                 .create();
         dialog.setView(input, (int)(16*dpi), (int)(16*dpi), (int)(16*dpi), (int)(16*dpi));

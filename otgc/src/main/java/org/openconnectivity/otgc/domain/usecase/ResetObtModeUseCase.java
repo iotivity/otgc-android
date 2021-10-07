@@ -34,8 +34,8 @@ public class ResetObtModeUseCase {
         return iotivityRepository.scanOwnedDevices()
                 .flatMapCompletable(device -> doxsRepository.resetDevice(device.getDeviceId()))
                 .delay(preferencesRepository.getRequestsDelay(), TimeUnit.SECONDS)
+                .andThen(Completable.fromAction(() -> preferencesRepository.setMode(OtgcMode.OBT)))
                 .andThen(provisioningRepository.resetSvrDb())
-                .andThen(provisioningRepository.doSelfOwnership())
-                .andThen(Completable.fromAction(() -> preferencesRepository.setMode(OtgcMode.OBT)));
+                .andThen(provisioningRepository.doSelfOwnership());
     }
 }

@@ -353,6 +353,22 @@ public class IotivityRepository {
                 .filter(device -> !device.getDeviceId().equals(getDeviceId().blockingGet()));
     }
 
+    public Single<String> getEndpoint(Device device) {
+        return Single.create(emitter -> {
+            String endpoint = device.getIpv6Host() != null ? device.getIpv6Host() : device.getIpv6TcpHost();
+            if (endpoint == null) {
+                endpoint = device.getIpv4Host() != null ? device.getIpv4Host() : device.getIpv4TcpHost();
+                if (endpoint == null) {
+                    endpoint = device.getIpv6SecureHost() != null ? device.getIpv6SecureHost() : device.getIpv6TcpSecureHost();
+                    if (endpoint == null) {
+                        endpoint = device.getIpv4SecureHost() != null ? device.getIpv4SecureHost() : device.getIpv4TcpSecureHost();
+                    }
+                }
+            }
+            emitter.onSuccess(endpoint);
+        });
+    }
+
     public Single<String> getNonSecureEndpoint(Device device) {
         return Single.create(emitter -> {
             String endpoint = device.getIpv6Host() != null ? device.getIpv6Host() : device.getIpv6TcpHost();

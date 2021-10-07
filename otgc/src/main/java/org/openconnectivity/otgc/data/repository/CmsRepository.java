@@ -142,6 +142,26 @@ public class CmsRepository {
         });
     }
 
+    public Completable provisionTrustAnchor(byte[] certificate, String sid, String deviceId) {
+        return Completable.create(emitter -> {
+            OCUuid di = OCUuidUtil.stringToUuid(deviceId);
+
+            OCObtStatusHandler handler = (int status) -> {
+                if (status >= 0) {
+                    Timber.d("Provision trust anchor succeeded");
+                    emitter.onComplete();
+                } else {
+                    emitter.onError(new Exception("Provision trust anchor error"));
+                }
+            };
+
+            int ret = OCObt.provisionTrustAnchor(certificate, sid, di, handler);
+            if (ret < 0) {
+                emitter.onError(new Exception("Provision trust anchor error"));
+            }
+        });
+    }
+
     public Completable provisionPairwiseCredential(String clientId, String serverId) {
         return Completable.create(emitter -> {
             OCUuid cliendDi = OCUuidUtil.stringToUuid(clientId);
@@ -248,6 +268,33 @@ public class CmsRepository {
                 Timber.e(error);
                 emitter.onError(new Exception(error));
             }
+        });
+    }
+
+    public Completable registerDeviceCloud(String deviceId, String deviceURL, String authProvider, String cloudUrl, String cloudUuid, String accessToken) {
+        return Completable.create(emitter -> {
+            OCCloudContext ctx = OCCloud.getContext(0);
+
+            OCUuid uuid = OCUuidUtil.stringToUuid(deviceId);
+
+            OCResponseHandler handler = (OCClientResponse response) -> {
+                if (response.getCode() == OCStatus.OC_STATUS_CHANGED) {
+                    Timber.d("Register device on cloud success");
+                    emitter.onComplete();
+                } else if (response.getCode() == OCStatus.OC_STATUS_CREATED) {
+                    Timber.d("Register device on cloud success");
+                    emitter.onComplete();
+                } else {
+                    String error = "Register device on cloud error";
+                    Timber.e(error + ": " + response.getCode());
+                    emitter.onError(new Exception(error));
+                }
+            };
+
+            if (ctx != null) {
+                OCObt.UpdateCloudConfDevice(uuid, deviceURL, accessToken, authProvider, cloudUrl, cloudUuid, handler);
+            }
+            emitter.onComplete();
         });
     }
 }

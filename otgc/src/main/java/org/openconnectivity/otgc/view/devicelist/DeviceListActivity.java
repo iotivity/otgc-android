@@ -215,10 +215,10 @@ public class DeviceListActivity extends AppCompatActivity implements HasSupportF
                 }
                 break;
             case R.id.menu_item_obt_mode:
-                showConfirmSetMode(OtgcMode.OBT, false);
+                showConfirmSetMode(OtgcMode.OBT, true);
                 break;
             case R.id.menu_item_client_mode:
-                showConfirmSetMode(OtgcMode.CLIENT, false);
+                showConfirmSetMode(OtgcMode.CLIENT, true);
                 break;
             case R.id.menu_item_trust_anchor:
                 onTrustAnchorManagement();

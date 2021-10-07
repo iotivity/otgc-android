@@ -114,6 +114,9 @@
     <string name="devices_dialog_set_device_name_title">Insert device name</string>
     <string name="devices_dialog_set_device_name_yes_option">Confirm</string>
     <string name="devices_dialog_set_device_name_no_option">Cancel</string>
+    <string name="devices_dialog_set_access_token_title">Insert access token</string>
+    <string name="devices_dialog_set_access_token_yes_option">Confirm</string>
+    <string name="devices_dialog_set_access_token_no_option">Cancel</string>
     <string name="devices_dialog_show_not_valid_certificate_title">Not Valid Certificate</string>
     <string name="devices_dialog_show_not_valid_certificate_ok_option" translatable="false">OK</string>
     <string name="trust_anchor_cert_type_radio_title">Certificate type:</string>
@@ -157,6 +160,7 @@
     <string name="devices_cardview_menu_item_offboard">Offboard</string>
     <string name="devices_cardview_menu_item_set_device_name">Set device name</string>
     <string name="devices_cardview_menu_item_wifi_easy_setup" translatable="false">Wi-Fi Easy Setup</string>
+    <string name="devices_cardview_menu_item_register_device_cloud" translatable="false">Register in cloud</string>
     <string name="devices_dialog_scanning_message">Scanning devices&#8230;</string>
     <string name="devices_dialog_wifi_title">Connect to Wi-Fi network</string>
     <string name="devices_dialog_wifi_message">In this moment there is no active Wi-Fi connection. Do you want to connect to a Wi-Fi network?</string>
@@ -312,7 +316,7 @@
 
     <string name="about_app_name" translatable="false">Onboarding Tool and Generic Client</string>
     <string name="about_app_version">Version %1$s</string>
-    <string name="about_copyright" translatable="false">&#169; 2020 Open Connectivity Foundation.</string>
+    <string name="about_copyright" translatable="false">&#169; 2021 Open Connectivity Foundation.</string>
     <string name="about_all_rights_reserved">All rights reserved.</string>
     <string name="about_powered_by">Powered by:</string>
     <string name="about_dekra_tc" translatable="false">DEKRA Testing and Certification, S.A.U.</string>

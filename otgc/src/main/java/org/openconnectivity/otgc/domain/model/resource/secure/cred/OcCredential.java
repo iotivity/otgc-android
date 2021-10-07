@@ -134,9 +134,13 @@ public class OcCredential {
             this.setPublicData(publicData);
         }
         /* privatedata */
+		// Reading Private Data fails sometimes on Android. As it not used, it has been commented
+        /*
         OcCredPrivateData privateData = new OcCredPrivateData();
         privateData.parseOCRepresentation(cred.getPrivateData());
         this.setPrivateData(privateData);
+         */
+
         /* roleid */
         if (cred.getRole() != null) {
             OcCredRole roleid = new OcCredRole();

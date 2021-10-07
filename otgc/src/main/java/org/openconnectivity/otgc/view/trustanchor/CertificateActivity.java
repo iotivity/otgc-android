@@ -207,6 +207,11 @@ public class CertificateActivity extends AppCompatActivity implements Injectable
         mViewModel.getError().observe(this, this::handleError);
 
         mViewModel.getSuccess().observe(this, this::processSuccess);
+
+        if (mViewModel.isClientMode())
+            endEntityRadioButton.setEnabled(true);
+        else
+            endEntityRadioButton.setEnabled(false);
     }
 
     private void handleProcessing(@NonNull Boolean isProcessing) {

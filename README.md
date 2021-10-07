@@ -59,7 +59,7 @@ cd <iotivity-lite>/port/android
 ```
 3. Execute the command to build the library.
 ```
-make NDK_HOME=<ndk-directory> ANDROID_API=21 DEBUG=1 SECURE=1 IPV4=1 TCP=0 PKI=1 DYNAMIC=1 CLOUD=0 JAVA=1 IDD=1
+make NDK_HOME=<ndk-directory> ANDROID_API=21 DEBUG=1 SECURE=1 IPV4=1 TCP=1 PKI=1 DYNAMIC=1 CLOUD=1 JAVA=1 IDD=1
 ```
 
 Once built, the library can be found at:

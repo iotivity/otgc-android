@@ -40,6 +40,10 @@
         app:showAsAction="never"
         android:title="@string/devices_cardview_menu_item_roles" />
     <item
+        android:id="@+id/menu_item_register_device_cloud"
+        app:showAsAction="never"
+        android:title="@string/devices_cardview_menu_item_register_device_cloud" />
+    <item
         android:id="@+id/menu_item_wifi_easy_setup"
         app:showAsAction="never"
         android:title="@string/devices_cardview_menu_item_wifi_easy_setup" />

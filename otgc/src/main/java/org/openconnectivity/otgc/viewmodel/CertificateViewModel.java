@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel;
 import org.openconnectivity.otgc.domain.usecase.trustanchor.SaveEndEntityCertificateUseCase;
 import org.openconnectivity.otgc.domain.usecase.trustanchor.SaveIntermediateCertificateUseCase;
 import org.openconnectivity.otgc.domain.usecase.trustanchor.StoreTrustAnchorUseCase;
+import org.openconnectivity.otgc.utils.constant.OtgcMode;
 import org.openconnectivity.otgc.utils.rx.SchedulersFacade;
 import org.openconnectivity.otgc.utils.viewmodel.ViewModelError;
 import org.openconnectivity.otgc.utils.viewmodel.ViewModelErrorType;
+import org.openconnectivity.otgc.utils.constant.OtgcMode;
+import org.openconnectivity.otgc.data.repository.PreferencesRepository;
 
 import java.io.InputStream;
 
@@ -26,6 +29,7 @@ public class CertificateViewModel extends ViewModel {
     private final StoreTrustAnchorUseCase storeTrustAnchorUseCase;
     private final SaveIntermediateCertificateUseCase saveIntermediateCertificateUseCase;
     private final SaveEndEntityCertificateUseCase saveEndEntityCertificateUseCase;
+    private final PreferencesRepository settingRepository;
 
     private final MutableLiveData<Boolean> mProcessing = new MutableLiveData<>();
     private final MutableLiveData<ViewModelError> mError = new MutableLiveData<>();
@@ -36,11 +40,13 @@ public class CertificateViewModel extends ViewModel {
     CertificateViewModel(SchedulersFacade schedulersFacade,
                          StoreTrustAnchorUseCase storeTrustAnchorUseCase,
                          SaveIntermediateCertificateUseCase saveIntermediateCertificateUseCase,
-                         SaveEndEntityCertificateUseCase saveEndEntityCertificateUseCase) {
+                         SaveEndEntityCertificateUseCase saveEndEntityCertificateUseCase,
+                         PreferencesRepository settingRepository) {
         this.mSchedulersFacade = schedulersFacade;
         this.storeTrustAnchorUseCase = storeTrustAnchorUseCase;
         this.saveIntermediateCertificateUseCase = saveIntermediateCertificateUseCase;
         this.saveEndEntityCertificateUseCase = saveEndEntityCertificateUseCase;
+        this.settingRepository = settingRepository;
     }
 
     @Override
@@ -58,6 +64,11 @@ public class CertificateViewModel extends ViewModel {
 
     public LiveData<Boolean> getSuccess() {
         return mSuccess;
+    }
+
+    public boolean isClientMode()
+    {
+        return settingRepository.getMode().equals(OtgcMode.CLIENT);
     }
 
     public void saveTrustAnchor(InputStream is) {

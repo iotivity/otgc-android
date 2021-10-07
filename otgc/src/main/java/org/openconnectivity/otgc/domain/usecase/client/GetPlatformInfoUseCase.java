@@ -39,7 +39,7 @@ public class GetPlatformInfoUseCase {
     }
 
     public Single<OcPlatformInfo> execute(Device device) {
-        return iotivityRepository.getNonSecureEndpoint(device)
+        return iotivityRepository.getEndpoint(device)
                 .flatMap(iotivityRepository::getPlatformInfo);
     }
 }

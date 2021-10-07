@@ -55,7 +55,7 @@ public class GetDeviceRoleUseCase {
     }
 
     public Single<DeviceRole> execute(Device device) {
-        return iotivityRepository.getNonSecureEndpoint(device)
+        return iotivityRepository.getEndpoint(device)
                 .flatMap(endpoint ->
                         iotivityRepository.findResources(endpoint)
                                 .timeout(iotivityRepository.getDiscoveryTimeout() + 5, TimeUnit.SECONDS)

@@ -59,6 +59,7 @@ import org.openconnectivity.otgc.domain.usecase.easysetup.WiFiEasySetupUseCase;
 import org.openconnectivity.otgc.domain.model.WifiNetwork;
 import org.openconnectivity.otgc.domain.usecase.wifi.RegisterScanResultsReceiverUseCase;
 import org.openconnectivity.otgc.domain.usecase.wifi.ScanWiFiNetworksUseCase;
+import org.openconnectivity.otgc.domain.usecase.cloud.RegisterDeviceCloudUseCase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,6 +92,9 @@ public class DoxsViewModel extends BaseViewModel {
     private final CloudDiscoverDevicesUseCase cloudDiscoverDevicesUseCase;
     private final CloudRetrieveDeviceInfoUseCase cloudRetrieveDeviceInfoUseCase;
     private final CloudRetrieveDeviceRoleUseCase cloudRetrieveDeviceRoleUseCase;
+    private final RegisterDeviceCloudUseCase registerDeviceCloudUseCase;
+
+
 
     private final SchedulersFacade mSchedulersFacade;
 
@@ -104,6 +108,7 @@ public class DoxsViewModel extends BaseViewModel {
     private final MutableLiveData<Response<Device>> offboardResponse = new MutableLiveData<>();
     private final MutableLiveData<Response<List<WifiNetwork>>> scanResponse = new MutableLiveData<>();
     private final MutableLiveData<Response<Void>> connectWifiEasySetupResponse = new MutableLiveData<>();
+    private final MutableLiveData<Response<Void>> registerDeviceCloudResponse = new MutableLiveData<>();
 
     // Onboard selected devices
     private final MutableLiveData<Response<Boolean>> onboardWaiting = new MutableLiveData<>();
@@ -137,7 +142,8 @@ public class DoxsViewModel extends BaseViewModel {
                   SchedulersFacade schedulersFacade,
                   CloudDiscoverDevicesUseCase cloudDiscoverDevicesUseCase,
                   CloudRetrieveDeviceInfoUseCase cloudRetrieveDeviceInfoUseCase,
-                  CloudRetrieveDeviceRoleUseCase cloudRetrieveDeviceRoleUseCase) {
+                  CloudRetrieveDeviceRoleUseCase cloudRetrieveDeviceRoleUseCase,
+                  RegisterDeviceCloudUseCase registerDeviceCloudUseCase) {
         this.mCheckConnectionUseCase = checkConnectionUseCase;
         this.mGetModeUseCase = getModeUseCase;
         this.mScanDevicesUseCase = scanDevicesUseCase;
@@ -159,6 +165,7 @@ public class DoxsViewModel extends BaseViewModel {
         this.cloudDiscoverDevicesUseCase = cloudDiscoverDevicesUseCase;
         this.cloudRetrieveDeviceInfoUseCase = cloudRetrieveDeviceInfoUseCase;
         this.cloudRetrieveDeviceRoleUseCase = cloudRetrieveDeviceRoleUseCase;
+        this.registerDeviceCloudUseCase = registerDeviceCloudUseCase;
 
         this.mSchedulersFacade = schedulersFacade;
 
@@ -400,6 +407,33 @@ public class DoxsViewModel extends BaseViewModel {
                         },
                         throwable -> offboardResponse.setValue(Response.error(throwable))
 
+                ));
+    }
+
+    public void registerDeviceCloud(Device deviceToRegister, String accessToken) {
+        mDisposables.add(mGetModeUseCase.execute()
+                .subscribeOn(mSchedulersFacade.io())
+                .observeOn(mSchedulersFacade.ui())
+                .subscribe(
+                        mode -> {
+                            if (mode.equals(OtgcMode.OBT)) {
+
+                               registerDeviceCloudUseCase.execute(deviceToRegister, accessToken)
+
+
+                                                        .subscribeOn(mSchedulersFacade.io())
+                                                        .observeOn(mSchedulersFacade.ui())
+                                                        .subscribe(
+                                                                () -> {
+                                                                    //notificationCenter.publish(NotificationKey.SCAN_DEVICES);
+                                                                },
+                                                                throwable -> registerDeviceCloudResponse.setValue(Response.error(throwable))
+                                                        );
+                            } else {
+                                registerDeviceCloudResponse.setValue(Response.success(null));
+                            }
+                        },
+                        throwable -> registerDeviceCloudResponse.setValue(Response.error(throwable))
                 ));
     }
 
